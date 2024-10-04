@@ -95,7 +95,7 @@ while running:
     apple_position = pygame.Vector2(apple_pos_x, apple_pos_y)
 
     grape_position = (grape_pos_x, grape_pos_y)
-    blueberry_position = pygame.Vector2(blueberry_pos_x, blueberry_pos_y)
+    blueberry_position = (blueberry_pos_x, blueberry_pos_y)
     
     if time_start >= 1 or time_start == 1:
         if stop_game == 0:
@@ -157,9 +157,24 @@ while running:
     if time_start == 1:
         if automated:
             
-
             player_pos_x += (pygame.math.Vector2.normalize(apple_position-player_position) * player_speed).x
             player_pos_y += (pygame.math.Vector2.normalize(apple_position-player_position) * player_speed).y
+            
+           # print(pygame.math.Vector2.normalize(apple_position-player_position) * player_speed)
+
+        #    if player_pos_x > apple_pos_x:
+         #       player_pos_x -= player_speed
+          #  else:
+           #     player_pos_x += player_speed
+           # 
+            #if player_pos_y > apple_pos_y:
+           #     player_pos_y -= player_speed
+           #else:
+           #     player_pos_y += player_speed
+           
+           # pass
+             
+            #print(pygame.math.Vector2(apple_position-player_position).normalize)
 
         # Flytter spilleren baseret på tastetryk
         if keys[pygame.K_a] or keys[pygame.K_LEFT]:  # Venstre bevægelse (A-tasten)
@@ -211,12 +226,6 @@ while running:
         # blueberry follow apple
     if start_game == 1:
             if blueberry_wait <= 0:
-                
-                blueberry_pos_x += (pygame.math.Vector2.normalize(apple_position-blueberry_position)*blueberry_speed).x
-                blueberry_pos_y += (pygame.math.Vector2.normalize(apple_position-blueberry_position)*blueberry_speed).y
-                
-                
-
                 if blueberry_pos_x > apple_pos_x:
                     blueberry_pos_x -= blueberry_speed
                 else:
