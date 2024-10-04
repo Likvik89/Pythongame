@@ -10,6 +10,11 @@ pygame.init()
 screen = pygame.display.set_mode((1200, 800))
 pygame.display.set_caption("CUBE OF DEATH")
 
+
+# skærem størelse
+screen_width = 1200
+screen_height = 800
+
 # player
 player_pos_x = 600  # Initial player x-position
 player_pos_y = 400  # Initial player y-position
@@ -27,9 +32,6 @@ grape_speed = 3
 grape_bounce_x = (random.randint(0, 1))
 grape_bounce_y = (random.randint(0, 1))
 
-# skærem størelse
-screen_width = 1200
-screen_height = 800
 
 # apple
 apple_width = 60
@@ -40,7 +42,6 @@ apple_pos_x = (random.randint(0, 1140))
 # tid 
 milisec = 0
 sec = 10
-grape_grace = 500
 
 point = 0
 
@@ -221,20 +222,16 @@ while running:
             point += 1
             milisec  += 500
             total_time += 0.5
-            grape_grace -= grape_grace
-            grape_grace += 50
 
     #player colisont med grape
     if stop_game == 0:
         if (player_pos_x > (grape_pos_x-grape_width)) and (player_pos_x < (grape_pos_x + grape_width)) and (player_pos_y > (grape_pos_y-grape_height)) and (player_pos_y < (grape_pos_y + grape_height)):
-            if grape_grace <= 0:
-                milisec -= 3
-                milisec_grape_time += 2
+                milisec -= 6
+                milisec_grape_time += 6
                 if milisec_grape_time >= 1000:
                     milisec_grape_time -= milisec_grape_time
                     grape_time += 1
-            else:
-                grape_grace -= 3
+
 
             
     if cheat >= 1:
