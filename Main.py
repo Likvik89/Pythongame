@@ -1,12 +1,15 @@
 import pygame
 import sys
 import random
-from pygame import math
+from movement import player_movement
+from movement import grape_movement
+from movement import blueberry_movement
+from colision import apple_colision
+from colision import grape_colision
+from colision import blueberry_colision
 
 # Initialize pygame
 pygame.init()
-
-
 
 # skærem størelse
 screen_width = 1200
@@ -88,15 +91,7 @@ def display_big_text(text, x, y):
 # Spil-løkke
 running = True
 while running:
-    player_position = pygame.Vector2()
-    player_position.x = player_pos_x
-    player_position.y = player_pos_y
 
-    apple_position = pygame.Vector2(apple_pos_x, apple_pos_y)
-
-    grape_position = (grape_pos_x, grape_pos_y)
-    blueberry_position = pygame.Vector2(blueberry_pos_x, blueberry_pos_y)
-    
     if time_start >= 1 or time_start == 1:
         if stop_game == 0:
             milisec -= 3
@@ -152,112 +147,21 @@ while running:
                 else:
                     cheat += 1
 
-    keys = pygame.key.get_pressed()
 
-    if time_start == 1:
-        if automated:
-            
+    #check script movement.py
+    player_movement()
 
-            player_pos_x += (pygame.math.Vector2.normalize(apple_position-player_position) * player_speed).x
-            player_pos_y += (pygame.math.Vector2.normalize(apple_position-player_position) * player_speed).y
+    grape_movement()
 
-        # Flytter spilleren baseret på tastetryk
-        if keys[pygame.K_a] or keys[pygame.K_LEFT]:  # Venstre bevægelse (A-tasten)
-            player_pos_x -= player_speed
-        if keys[pygame.K_d] or keys[pygame.K_RIGHT]:  # Højre bevægelse (D-tasten)
-            player_pos_x += player_speed
-        if keys[pygame.K_w] or keys[pygame.K_UP]:  # Opad bevægelse (W-tasten)
-            player_pos_y -= player_speed
-        if keys[pygame.K_s] or keys[pygame.K_DOWN]:  # Nedad bevægelse (S-tasten)
-            player_pos_y += player_speed
+    blueberry_movement()
 
-    # Hold spilleren inden for skærmkanterne
-    if player_pos_x < 0:
-        player_pos_x = 0
-    if player_pos_x + player_width > screen_width:
-        player_pos_x = screen_width - player_width
-    if player_pos_y < 0:
-        player_pos_y = 0
-    if player_pos_y + player_height > screen_height:
-        player_pos_y = screen_height - player_height
+    #check  script colision.py
+    apple_colision()
 
+    grape_colision()
 
+    blueberry_colision()
 
-    # follow the player and colison whit the  apple
-    if start_game == 1:
-        if grape_bounce_x == 0:
-            grape_pos_x += grape_speed 
-        else:
-            grape_pos_x -= grape_speed
-
-        if grape_bounce_y == 0:
-            grape_pos_y += grape_speed
-        else:
-            grape_pos_y -= grape_speed
-            
-        if grape_pos_x >= 1140:
-            grape_bounce_x += 1
-
-        if grape_pos_x <= 0:
-            grape_bounce_x -= 1
-
-        if grape_pos_y >= 740:
-            grape_bounce_y += 1
-            
-        if grape_pos_y <= 0:
-            grape_bounce_y -= 1
-
-
-        # blueberry follow apple
-    if start_game == 1:
-            if blueberry_wait <= 0:
-                
-                blueberry_pos_x += (pygame.math.Vector2.normalize(apple_position-blueberry_position)*blueberry_speed).x
-                blueberry_pos_y += (pygame.math.Vector2.normalize(apple_position-blueberry_position)*blueberry_speed).y
-                
-                
-
-           #     if blueberry_pos_x > apple_pos_x:
-            #        blueberry_pos_x -= blueberry_speed
-             #   else:
-              #      blueberry_pos_x += blueberry_speed
-               # 
-         #       if blueberry_pos_y > apple_pos_y:
-          #          blueberry_pos_y -= blueberry_speed
-           #     else:
-            #        blueberry_pos_y += blueberry_speed
-            #    blueberry_wait -= blueberry_wait
-            else:
-                blueberry_wait -= 3
-
-
-    #player colisont med appel
-    if stop_game == 0:
-        if (player_pos_x > (apple_pos_x-apple_width)) and (player_pos_x < (apple_pos_x + apple_width)) and (player_pos_y > (apple_pos_y-apple_height)) and (player_pos_y < (apple_pos_y + apple_height)):
-            apple_pos_y = (random.randint(0, screen_height-apple_height))
-            apple_pos_x = (random.randint(0, screen_width-apple_width))
-            blueberry_wait -= blueberry_wait
-            blueberry_wait += 500
-            point += 1
-            milisec  += 500
-            total_time += 0.5
-
-    #player colisont med grape
-    if stop_game == 0:
-        if (player_pos_x > (grape_pos_x-grape_width)) and (player_pos_x < (grape_pos_x + grape_width)) and (player_pos_y > (grape_pos_y-grape_height)) and (player_pos_y < (grape_pos_y + grape_height)):
-                milisec -= 6
-                milisec_grape_time += 6
-                if milisec_grape_time >= 1000:
-                    milisec_grape_time -= milisec_grape_time
-                    grape_time += 1
-
-    #blueberry colisont med apple
-    if stop_game == 0:
-            if (blueberry_pos_x > (apple_pos_x-apple_width)) and (blueberry_pos_x < (apple_pos_x + apple_width)) and (blueberry_pos_y > (apple_pos_y-apple_height)) and (blueberry_pos_y < (apple_pos_y + apple_height)):
-                apple_pos_y = (random.randint(0, screen_height-apple_height))
-                apple_pos_x = (random.randint(0, screen_width-apple_width))
-                blueberry_wait -= blueberry_wait
-                blueberry_wait += 500
             
     if cheat >= 1:
         automated = True
