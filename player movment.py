@@ -22,26 +22,36 @@ player_width = 60
 player_height = 60
 player_speed = 3
 
-
-# grape
-grape_pos_y = (random.randint(0, 740))
-grape_pos_x = (random.randint(0, 1140))
-grape_width = 60
-grape_height = 60
-grape_speed = 3
-grape_bounce_x = (random.randint(0, 1))
-grape_bounce_y = (random.randint(0, 1))
-
-
 # apple
 apple_width = 60
 apple_height = 60
 apple_pos_y = (random.randint(0, screen_height-apple_height))
-apple_pos_x = (random.randint(0, 1140))
+apple_pos_x = (random.randint(0, screen_width-apple_width))
+
+
+# grape
+grape_width = 60
+grape_height = 60
+grape_pos_y = (random.randint(0, screen_height-grape_height))
+grape_pos_x = (random.randint(0, screen_width-grape_width))
+grape_speed = 3
+grape_bounce_x = (random.randint(0, 1))
+grape_bounce_y = (random.randint(0, 1))
+
+# blueberry
+blueberry_width = 60
+blueberry_height = 60
+blueberry_pos_y = (random.randint(0, screen_height - blueberry_height))
+blueberry_pos_x = (random.randint(0, screen_width - blueberry_width))
+blueberry_speed = 2
+blueberry_bounce_x = (random.randint(0, 1))
+blueberry_bounce_y = (random.randint(0, 1))
+
 
 # tid 
 milisec = 0
 sec = 10
+blueberry_wait = 500
 
 point = 0
 
@@ -81,6 +91,7 @@ while running:
     player_position = (player_pos_x, player_pos_y)
     apple_position = (apple_pos_x, apple_pos_y)
     grape_position = (grape_pos_x, grape_pos_y)
+    blueberry_position = (blueberry_pos_x, blueberry_pos_y)
     
     if time_start >= 1 or time_start == 1:
         if stop_game == 0:
@@ -123,10 +134,10 @@ while running:
                     milisec_grape_time -= milisec_grape_time
                     player_pos_x = 600  # Initial player x-position
                     player_pos_y = 400  # Initial player y-position
-                    apple_pos_y = (random.randint(0, 750))
-                    apple_pos_x = (random.randint(0, 1150))
-                    grape_pos_y = (random.randint(0, 750))
-                    grape_pos_x = (random.randint(0, 1150))
+                    apple_pos_y = (random.randint(0, screen_height-apple_height))
+                    apple_pos_x = (random.randint(0, screen_width-apple_width))
+                    grape_pos_y = (random.randint(0, screen_height-grape_height))
+                    grape_pos_x = (random.randint(0, screen_width-grape_width))
                     grape_bounce_x = (random.randint(0, 1))
                     grape_bounce_y = (random.randint(0, 1))
 
@@ -214,11 +225,30 @@ while running:
             grape_bounce_y -= 1
 
 
+        # blueberry follow apple
+    if start_game == 1:
+            if blueberry_wait <= 0:
+                if blueberry_pos_x > apple_pos_x:
+                    blueberry_pos_x -= blueberry_speed
+                else:
+                    blueberry_pos_x += blueberry_speed
+                
+                if blueberry_pos_y > apple_pos_y:
+                    blueberry_pos_y -= blueberry_speed
+                else:
+                    blueberry_pos_y += blueberry_speed
+                blueberry_wait -= blueberry_wait
+            else:
+                blueberry_wait -= 3
+
+
     #player colisont med appel
     if stop_game == 0:
         if (player_pos_x > (apple_pos_x-apple_width)) and (player_pos_x < (apple_pos_x + apple_width)) and (player_pos_y > (apple_pos_y-apple_height)) and (player_pos_y < (apple_pos_y + apple_height)):
-            apple_pos_y = (random.randint(0, 750))
-            apple_pos_x = (random.randint(0, 1150))
+            apple_pos_y = (random.randint(0, screen_height-apple_height))
+            apple_pos_x = (random.randint(0, screen_width-apple_width))
+            blueberry_wait -= blueberry_wait
+            blueberry_wait += 500
             point += 1
             milisec  += 500
             total_time += 0.5
@@ -232,7 +262,13 @@ while running:
                     milisec_grape_time -= milisec_grape_time
                     grape_time += 1
 
-
+    #blueberry colisont med apple
+    if stop_game == 0:
+            if (blueberry_pos_x > (apple_pos_x-apple_width)) and (blueberry_pos_x < (apple_pos_x + apple_width)) and (blueberry_pos_y > (apple_pos_y-apple_height)) and (blueberry_pos_y < (apple_pos_y + apple_height)):
+                apple_pos_y = (random.randint(0, screen_height-apple_height))
+                apple_pos_x = (random.randint(0, screen_width-apple_width))
+                blueberry_wait -= blueberry_wait
+                blueberry_wait += 500
             
     if cheat >= 1:
         automated = True
@@ -253,9 +289,15 @@ while running:
             pygame.draw.rect(screen, apple_color, (apple_pos_x, apple_pos_y, apple_width, apple_height))
 
 
+            # Tegner grape som et rektangel
+            grape_color = (155, 0, 155)  # lila farve
+            pygame.draw.rect(screen, grape_color, (grape_pos_x, grape_pos_y, grape_width, grape_height))
+
+            
             # Tegner appel som et rektangel
-            apple_color = (155, 0, 155)  # rød farve
-            pygame.draw.rect(screen, apple_color, (grape_pos_x, grape_pos_y, grape_width, grape_height))
+            blueberry_color = (0, 0, 255)  # blå farve
+            pygame.draw.rect(screen, blueberry_color, (blueberry_pos_x, blueberry_pos_y, blueberry_width, blueberry_height))
+
 
             display_text(f"point {point}", 20, 20)  
             display_text(f"gained time {total_time} sec", 20, 60)
