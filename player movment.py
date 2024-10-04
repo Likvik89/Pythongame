@@ -217,16 +217,16 @@ while running:
                 
                 
 
-                if blueberry_pos_x > apple_pos_x:
-                    blueberry_pos_x -= blueberry_speed
-                else:
-                    blueberry_pos_x += blueberry_speed
-                
-                if blueberry_pos_y > apple_pos_y:
-                    blueberry_pos_y -= blueberry_speed
-                else:
-                    blueberry_pos_y += blueberry_speed
-                blueberry_wait -= blueberry_wait
+           #     if blueberry_pos_x > apple_pos_x:
+            #        blueberry_pos_x -= blueberry_speed
+             #   else:
+              #      blueberry_pos_x += blueberry_speed
+               # 
+         #       if blueberry_pos_y > apple_pos_y:
+          #          blueberry_pos_y -= blueberry_speed
+           #     else:
+            #        blueberry_pos_y += blueberry_speed
+            #    blueberry_wait -= blueberry_wait
             else:
                 blueberry_wait -= 3
 
