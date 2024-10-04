@@ -6,9 +6,6 @@ from pygame import math
 # Initialize pygame
 pygame.init()
 
-# Create a window with a size of 1200x800
-screen = pygame.display.set_mode((1200, 800))
-pygame.display.set_caption("CUBE OF DEATH")
 
 
 # skærem størelse
@@ -71,6 +68,9 @@ milisec_grape_time = 0
 automated = False
 cheat = 0
 
+# Create a window with a size of 1200x800
+screen = pygame.display.set_mode((screen_width, screen_height))
+pygame.display.set_caption("CUBE OF DEATH")
 
 font = pygame.font.Font(None, 50)
 big_font = pygame.font.Font(None, 50)
@@ -88,8 +88,12 @@ def display_big_text(text, x, y):
 # Spil-løkke
 running = True
 while running:
-    player_position = (player_pos_x, player_pos_y)
-    apple_position = (apple_pos_x, apple_pos_y)
+    player_position = pygame.Vector2()
+    player_position.x = player_pos_x
+    player_position.y = player_pos_y
+
+    apple_position = pygame.Vector2(apple_pos_x, apple_pos_y)
+
     grape_position = (grape_pos_x, grape_pos_y)
     blueberry_position = (blueberry_pos_x, blueberry_pos_y)
     
@@ -153,30 +157,24 @@ while running:
     if time_start == 1:
         if automated:
             
-           # pygame.Vec
-
-            if player_pos_x > apple_pos_x:
-                player_pos_x -= player_speed
-            else:
-                player_pos_x += player_speed
+            player_pos_x += (pygame.math.Vector2.normalize(apple_position-player_position) * player_speed).x
+            player_pos_y += (pygame.math.Vector2.normalize(apple_position-player_position) * player_speed).y
             
-            if player_pos_y > apple_pos_y:
-                player_pos_y -= player_speed
-            else:
-                player_pos_y += player_speed
+           # print(pygame.math.Vector2.normalize(apple_position-player_position) * player_speed)
+
+        #    if player_pos_x > apple_pos_x:
+         #       player_pos_x -= player_speed
+          #  else:
+           #     player_pos_x += player_speed
+           # 
+            #if player_pos_y > apple_pos_y:
+           #     player_pos_y -= player_speed
+           #else:
+           #     player_pos_y += player_speed
            
            # pass
              
-            print(pygame.math.Vector2(apple_position-player_position).normalize)
-        #    if  player_pos_x > apple_pos_x:
-         #       player_pos_x -= player_speed
-          #  if player_pos_x < apple_pos_x:
-           #     player_pos_x += player_speed
-            #  
-            #if  player_pos_y > apple_pos_y:
-            #    player_pos_y -= player_speed
-            #if player_pos_y < apple_pos_y:
-            #    player_pos_y += player_speed
+            #print(pygame.math.Vector2(apple_position-player_position).normalize)
 
         # Flytter spilleren baseret på tastetryk
         if keys[pygame.K_a] or keys[pygame.K_LEFT]:  # Venstre bevægelse (A-tasten)
