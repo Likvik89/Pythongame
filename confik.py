@@ -60,5 +60,5 @@ milisec_grape_time = 0
 
 #  cheat
 automated = False
-cheat = 0
+cheat = False
 

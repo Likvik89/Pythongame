@@ -84,10 +84,10 @@ while running:
 
 
             if event.key == pygame.K_t:
-                if confik.cheat == 1:
-                    confik.cheat -= 1
+                if confik.cheat:
+                    confik.cheat = False
                 else:
-                    confik.cheat += 1
+                    confik.cheat = True
 
 
     #check script movement.py
@@ -105,10 +105,10 @@ while running:
     blueberry_colision()
 
             
-    if confik.cheat >= 1:
-        automated = True
+    if confik.cheat:
+        confik.automated = True
     else:
-        automated = False
+        confik.automated = False
 
     screen.fill((0, 0, 0))
     if confik.start_game == 1:
