@@ -16,7 +16,7 @@ def player_movement():
     keys = pygame.key.get_pressed()
 
     if confik.time_start == 1:
-        if confik.automated:
+        if confik.cheat:
             confik.player_pos_x += (pygame.math.Vector2.normalize(apple_position-player_position) * confik.player_speed).x
             confik.player_pos_y += (pygame.math.Vector2.normalize(apple_position-player_position) * confik.player_speed).y
 
