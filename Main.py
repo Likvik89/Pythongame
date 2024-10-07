@@ -105,6 +105,10 @@ while running:
     blueberry_colision()
 
             
+    if confik.cheat:
+        confik.automated = True
+    else:
+        confik.automated = False
 
     screen.fill((0, 0, 0))
     if confik.start_game == 1:
